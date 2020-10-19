@@ -1,0 +1,173 @@
+@import "fontello.css";
+
+/* TYPE SELECTORS */ 
+/* CSS Reset */
+html,
+body {
+    margin: 0;
+    padding: 0;
+}
+
+p, ol, ul {
+    margin: 0;
+    padding: 0;
+    border: 0;
+    font-size: 100%;
+    font: inherit;
+    vertical-align: baseline;
+    list-style: none;
+}
+
+body {
+    height: 100vh;
+    width: 100vw;
+    background: rgb(244,59,71);
+    background: linear-gradient(0deg, rgba(244,59,71,1) 0%, rgba(69,58,148,1) 100%);
+    background-repeat: no-repeat;
+    background-attachment: fixed;
+}
+
+button {
+    font-size: 100%;
+    font-family: inherit;
+    border: 0;
+    padding: 0;
+}
+
+li {
+    list-style-type: none;
+}
+
+a {
+    text-decoration: none;
+    color: black;
+}
+
+/* CLASS SELECTORS */
+
+.add-input {
+    width: 50%;
+    display: block;
+    margin: 20px auto;
+}
+
+.bg-modal {
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0, 0, 0, 0.7);
+    position: absolute;
+    top: 0;
+    justify-content: center;
+    align-items: center;
+    display: flex;
+    font-family: 'Roboto', sans-serif;
+}
+
+.close {
+    position: absolute;
+    margin: 10px 0px 0px 20px;
+    top: 0;
+    right: 14px;
+    transform: rotate(90deg);
+}
+
+.modal-content {
+    width: 500px;
+    height: 300px;
+    background-color: white;
+    border-radius: 4px;
+    text-align: center;
+    padding: 20px;
+    position: relative;
+}
+
+.grid-container {
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+    grid-template-columns: 1fr 1fr 1fr;
+    grid-gap: 8em;
+    width: 120vmin;
+    margin: 0 auto;
+    justify-content: center;
+}
+
+
+.fl-r {
+    display: flex;
+    flex-direction: row;
+}
+
+.nav-btn {
+    cursor: pointer;
+    font-family: 'Noto Sans JP', sans-serif;
+    margin: 0px 5px;
+    padding: 5px 10px 5px 10px;
+    background-color: #453a94;
+    transition: background 250ms ease-in-out, 
+                transform 200ms ease;
+    color: #fff;
+}
+
+.nav-btn:hover,
+.nav-btn:focus {
+    background: #f43b47;
+}
+
+.nav-btn:focus {
+    outline: 1px solid #fff;
+    outline-offset: -4px;
+}
+
+.nav-btn:active {
+    transform: scale(0.99);
+}
+
+.nav-item {
+    display: inline;
+}
+
+.to-do-ctn {
+    background: #fff;
+    padding: 5px 20px;
+    width: 30vmin;
+    height: 100%;
+    -moz-box-shadow: 8px 8px 5px 2px #191919;
+    -webkit-box-shadow: 8px 8px 5px 2px #191919;
+    box-shadow: 8px 8px 5px 2px #191919;
+    font-family: 'Roboto', sans-serif;
+}
+
+.to-do-task {
+    border: 2px solid black;
+    justify-content: space-between;
+    margin-bottom: 5px;
+}
+
+
+/* ID SELECTORS */
+#header {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    padding: 5px 10px;
+    align-items: center;
+    justify-content: space-around;
+    background-color: #fff;
+    z-index: 2020;
+}
+
+#list-section {
+    margin-right: auto;
+    margin-left: auto;
+    margin-bottom: auto;
+}
+
+#logo-title {
+    font-family: 'Acme', sans-serif;
+    font-size: 40px;
+}
+
+#root {
+    padding-top: 100px;
+}
