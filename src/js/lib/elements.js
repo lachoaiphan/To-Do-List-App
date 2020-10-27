@@ -1,6 +1,6 @@
 import { addTaskModalButton, removeProjectButton, addRenameButton, checkButton, removeTaskButton } from './buttons.js'
 import { Project, ProjectList, Task } from './factories.js';
-import { appendChildren, signInAuth } from "./helper.js";
+import { appendChildren } from "./helper.js";
 import { addProjectModal, removeModal } from './modals.js';
 
 let projectList = ProjectList();
@@ -156,8 +156,7 @@ function checkTask(projTask, tasks, index) {
 }
 
 function addNavbar() {
-    const buttonContent = [{class: 'nav-btn', content: 'ADD PROJECT', func: addProjectModal}, 
-                         {class: 'nav-btn', content: 'SIGN IN', func: signInAuth}];
+    const buttonContent = [{class: 'nav-btn', content: 'ADD PROJECT', func: addProjectModal}];
     let navBar = document.createElement('nav');
     let navList = document.createElement('ul');
 
