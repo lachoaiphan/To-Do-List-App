@@ -1,7 +1,9 @@
-import {addProjectForm, addTaskForm, renameTaskForm, removeProjectForm, removeTaskForm} from './forms.js';
-import {addCloseButton} from './buttons.js';
+import { addProjectForm, addTaskForm, renameTaskForm, removeProjectForm, removeTaskForm } from './forms.js';
+import { addCloseButton } from './buttons.js';
 
 export function addProjectModal() {
+    if (document.getElementsByClassName('bg-modal').length > 0)
+        return;
     let modal = document.createElement('div');
     let modalContent = createNewModalContent();
     let formContainer = addProjectForm();
@@ -14,6 +16,8 @@ export function addProjectModal() {
 }
 
 export function addTaskModal(project) {
+    if (document.getElementsByClassName('bg-modal').length > 0)
+        return;
     let modal = document.createElement('div');
     let modalContent = createNewModalContent();
     let formContainer = addTaskForm(project);
@@ -26,6 +30,8 @@ export function addTaskModal(project) {
 }
 
 export function renameModal(projects, taskIndex, projIndex) {
+    if (document.getElementsByClassName('bg-modal').length > 0)
+        return;
     let modal = document.createElement('div');
     let modalContent = createNewModalContent();
     let formContainer = renameTaskForm(projects, taskIndex, projIndex);
@@ -38,6 +44,8 @@ export function renameModal(projects, taskIndex, projIndex) {
 }
 
 export function removeProjectModal(index) {
+    if (document.getElementsByClassName('bg-modal').length > 0)
+        return;
     let modal = document.createElement('div');
     let modalContent = createNewModalContent();
     let formContainer = removeProjectForm(index);
@@ -50,6 +58,8 @@ export function removeProjectModal(index) {
 }
 
 export function removeTaskModal(projects, taskIndex, projIndex) {
+    if (document.getElementsByClassName('bg-modal').length > 0)
+        return;
     let modal = document.createElement('div');
     let modalContent = createNewModalContent();
     let formContainer = removeTaskForm(projects, taskIndex, projIndex);
