@@ -39,7 +39,7 @@ export function renderProjects() {
     document.getElementById('root').appendChild(listSection);
 }
 
-/* functions for buttons */
+/* functions for buttons to interact with project list*/
 export function addProject() {
     let projectForm = Array.from(document.querySelectorAll('#project-form input'));
     if (projectForm.filter(input => input.value !== '').length < projectForm.length)
