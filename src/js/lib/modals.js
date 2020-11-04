@@ -1,6 +1,22 @@
 import { addProjectForm, addTaskForm, renameTaskForm, removeProjectForm, removeTaskForm } from './forms.js';
 import { addCloseButton } from './buttons.js';
 
+// refactor code to lower repetition
+export function addModal(addForm) {
+    if (document.getElementsByClassName('bg-modal').length > 0)
+        return;
+    let modal = document.createElement('div');
+    let modalContent = createNewModalContent();
+    let formContainer = addForm();
+
+    modal.classList.add('bg-modal');
+    modalContent.appendChild(formContainer);
+    modal.appendChild(modalContent);
+
+    document.getElementById('root').appendChild(modal);
+
+}
+
 export function addProjectModal() {
     if (document.getElementsByClassName('bg-modal').length > 0)
         return;

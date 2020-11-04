@@ -11,6 +11,7 @@ export const Task = (taskName) => {
     return {getTaskName, setCheck, renameTask, getCheck};
 }
 
+/*
 export const ProjectList = () => {
     let projects = []
     const getProjectList = () => projects;
@@ -22,13 +23,15 @@ export const ProjectList = () => {
     }
     return {getProjectList, addProject, removeProject}
 }
+*/
 
-export const Project = (name, desc, date) => {
+export const Project = (name, desc, date, priority) => {
     let tasks = [];
     const getName = () => name;
     const getDesc = () => desc;
     const getDate = () => date;
     const getTasks = () => tasks;
+    const getPriority = () => priority;
     const getTasksLength = () => tasks.length;
     const addTask = (task) => {
         tasks.push(task);
@@ -36,6 +39,13 @@ export const Project = (name, desc, date) => {
     const removeTask = (index) => {
         tasks.splice(index, 1)
     }
-    return {getName, getDesc, getTasks, getTasksLength, getDate, addTask, removeTask};
+    return {getName, 
+            getDesc,
+            getPriority, 
+            getTasks, 
+            getTasksLength, 
+            getDate, 
+            addTask, 
+            removeTask};
 }
 

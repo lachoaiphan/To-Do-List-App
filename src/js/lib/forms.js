@@ -1,29 +1,33 @@
-import { appendChildren } from './helper.js';
+import { appendChildren, capitalizeString } from './helper.js';
 import { addProjectButton, addTaskButton, verifyDeleteProjectButton, verifyDeleteTaskButton, renameTaskButton } from './buttons.js';
 
 export function addProjectForm() {
     let formContainer = document.createElement('div');
     let projectHeader = document.createElement('h1');
     let projectForm = document.createElement('form');
+    let priorityForm = addPriorityForm();
     let addProjectBtn = addProjectButton();
     const projectAttrs = [
-        {name: 'name', class: 'add-input', required: true, type: 'text', placeholder: 'Enter project name'},
-        {name: 'desc', class: 'add-input', required: true, type: 'text', placeholder: 'Enter description'},
-        {name: 'date', class: 'add-input', required: true, type: 'date', placeholder: ''}
+        {name: 'name', class: 'add-input', required: true, type: 'text', placeholder: 'Enter Project Name:'},
+        {name: 'desc', class: 'add-input', required: true, type: 'text', placeholder: 'Enter Description:'},
+        {name: 'date', class: 'add-input', required: true, type: 'date', placeholder: 'Enter Due Date:'}
     ]
     projectHeader.textContent = 'Enter Project Name!';
     projectForm.setAttribute('id', 'project-form');
     for (let i = 0; i < projectAttrs.length; i++) {
         let projectField = document.createElement('input');
+        let projectHeader = document.createElement('h3');
         projectField.setAttribute('name', projectAttrs[i].name);
         projectField.setAttribute('class', projectAttrs[i].class);
         projectField.required = projectAttrs[i].required;
         projectField.setAttribute('type', projectAttrs[i].type);
-        projectField.setAttribute('placeholder', projectAttrs[i].placeholder);
-        projectForm.appendChild(projectField);
+        projectHeader.textContent = projectAttrs[i].placeholder;
+        //projectField.setAttribute('placeholder', projectAttrs[i].placeholder);
+        appendChildren(projectForm, [projectHeader, projectField]);
+        //projectForm.appendChild(projectField);
     }
 
-    projectForm.appendChild(addProjectBtn);
+    appendChildren(projectForm, [priorityForm, addProjectBtn]);
     appendChildren(formContainer, [projectHeader, projectForm]);
     
     return formContainer;
@@ -101,4 +105,35 @@ export function removeTaskForm(projects, taskIndex, projIndex) {
 
     appendChildren(formContainer, [taskHeader, removeTaskBtn]);
     return formContainer;
+}
+
+function addPriorityForm() {
+    const checkPriority = 'Check Priority:';
+    const priorities = [
+        {name: 'priority', class: 'add-priority', required: true, type: 'radio', checked: true, value: 'low'},
+        {name: 'priority', class: 'add-priority', required: true, type: 'radio', checked: false, value: 'medium'},
+        {name: 'priority', class: 'add-priority', required: true, type: 'radio', checked: false, value: 'high'},
+    ];
+    let priorityForm = document.createElement('div');
+    let priorityHeader = document.createElement('h3');
+
+    priorityHeader.textContent = checkPriority;
+    priorityForm.appendChild(priorityHeader);
+    for (let i = 0; i < priorities.length; i++) {
+        let projectField = document.createElement('input');
+        let projectLabel = document.createElement('label');
+
+        projectField.setAttribute('name', priorities[i].name);
+        projectField.setAttribute('class', priorities[i].class);
+        projectField.required = priorities[i].required;
+        projectField.checked = priorities[i].checked;
+        projectField.setAttribute('type', priorities[i].type);
+        projectField.setAttribute('value', priorities[i].value);
+
+        projectLabel.setAttribute('for', priorities[i].value);
+        projectLabel.textContent = capitalizeString(priorities[i].value);
+
+        appendChildren(priorityForm, [projectField, projectLabel]);
+    }
+    return priorityForm;
 }
