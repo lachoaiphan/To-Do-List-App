@@ -1,29 +1,23 @@
-export const Task = (taskName) => {
+export const Task = (taskName, date, priority) => {
     let checked = false;
     const setCheck = () => {
         checked = !checked;
     }
-    const renameTask = (name) => {
-        taskName = name;
+    const editTaskName = (newTaskName) => {
+        taskName = newTaskName;
     } 
+    const editDueDate = (newDate) => {
+        date = newDate;
+    } 
+    const editPriority = (newPriority) => {
+        priority = newPriority;
+    }
     const getTaskName = () => taskName;
+    const getDate = () => date;
+    const getPriority = () => priority;
     const getCheck = () => checked;
-    return {getTaskName, setCheck, renameTask, getCheck};
+    return {getTaskName, getDate, getPriority, setCheck, editTaskName, editDueDate, editPriority, getCheck};
 }
-
-/*
-export const ProjectList = () => {
-    let projects = []
-    const getProjectList = () => projects;
-    const addProject = (project) => {
-        projects.push(project);
-    }
-    const removeProject = (index) => {
-        projects.splice(index, 1);
-    }
-    return {getProjectList, addProject, removeProject}
-}
-*/
 
 export const Project = (name, desc, date, priority) => {
     let tasks = [];

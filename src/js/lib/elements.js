@@ -1,4 +1,4 @@
-import { addTaskModalButton, removeProjectButton, addRenameButton, checkButton, removeTaskButton } from './buttons.js'
+import { addTaskModalButton, removeProjectButton, addRenameButton, checkButton, checkTaskButton, removeTaskButton } from './buttons.js'
 import { Project, Task } from './factories.js';
 import { appendChildren, capitalizeString } from "./helper.js";
 import { addModal, removeModal } from './modals.js';
@@ -68,23 +68,29 @@ export function addProject() {
 }
 
 export function addTaskToList(project) {
+    const uncheckedPrioritiesNum = 2;
     let taskForm = Array.from(document.querySelectorAll('#task-form input'));
-    if (taskForm.filter(input => input.value !== '').length < taskForm.length)
+    if (taskForm.filter(input => (input.name !== 'priority' && input.value !== '') || 
+                                    (input.name === 'priority' && input.checked)).length < taskForm.length - uncheckedPrioritiesNum)
         return;
-    taskForm = taskForm.reduce((acc, input) => ({...acc,
-        [input.name]: input.value}), {});
-    project.addTask(Task(taskForm.taskName));
+    taskForm = taskForm.filter(input => (input.name !== 'priority') || (input.name === 'priority' && input.checked))
+        .reduce((acc, input) => ({...acc, [input.name]:  input.value}), {});
+    project.addTask(Task(taskForm.taskName, taskForm.date, taskForm.priority));
     renderProjects();
     removeModal();
 }
 
-export function renameTask(projects, taskIndex, projIndex) {
+export function editTask(projects, taskIndex, projIndex) {
+    const uncheckedPrioritiesNum = 2;
     let taskForm = Array.from(document.querySelectorAll('#task-form input'));
-    if (taskForm.filter(input => input.value !== '').length < taskForm.length)
+    if (taskForm.filter(input => (input.name !== 'priority' && input.value !== '') || 
+                                    (input.name === 'priority' && input.checked)).length < taskForm.length - uncheckedPrioritiesNum)
         return;
-    taskForm = taskForm.reduce((acc, input) => ({...acc,
-            [input.name]: input.value}), {});
-    projects[projIndex].getTasks()[taskIndex].renameTask(taskForm.taskName);
+    taskForm = taskForm.filter(input => (input.name !== 'priority') || (input.name === 'priority' && input.checked))
+        .reduce((acc, input) => ({...acc, [input.name]:  input.value}), {});
+    projects[projIndex].getTasks()[taskIndex].editTaskName(taskForm.taskName);
+    projects[projIndex].getTasks()[taskIndex].editDueDate(taskForm.date);
+    projects[projIndex].getTasks()[taskIndex].editPriority(taskForm.priority);
     renderProjects();
     removeModal();
 }
@@ -128,37 +134,38 @@ function addToDoContent(projects, index) {
     let date = document.createElement('h4');
     let priority = document.createElement('h4');
     let tasksList = addTasksContent(projects, index);
-    // CONTINUE HERE
 
     priority.classList.add(checkPriority(projects, index, priorityType));
 
     title.textContent = projects[index].getName();
     desc.textContent = projects[index].getDesc();
-    date.textContent = "Due Date: " + projects[index].getDate();
-    priority.textContent = "Priority: " + capitalizeString(projects[index].getPriority());
+    date.textContent = `Due Date: ${projects[index].getDate()}`;
+    priority.textContent = `Priority: ${capitalizeString(projects[index].getPriority())}`;
 
     appendChildren(toDoContent, [title, desc, date, priority, tasksList]);
 
     return toDoContent;
 }
 
-function addTasksContent(projects, index) {
-    let tasks = projects[index].getTasks();
+function addTasksContent(projects, projectIndex) {
+    const borderType = 'border';
+    let tasks = projects[projectIndex].getTasks();
     let taskList = document.createElement('ul');
-    for (let i = 0; i < tasks.length; i++) {
+    for (let taskIndex = 0; taskIndex < tasks.length; taskIndex++) {
         let taskListItem = document.createElement('li');
         let projTaskContainer = document.createElement('div');
         let btnContainer = document.createElement('div');
 
         let projTask = document.createElement('p');
-        let buttons = [addRenameButton(projects, i, index), 
-                       checkButton(tasks, index), 
-                       removeTaskButton(projects, i, index)];
+        let buttons = [addRenameButton(projects, taskIndex, projectIndex), 
+                       checkTaskButton(projects, taskIndex, projectIndex),
+                       checkButton(tasks, taskIndex), 
+                       removeTaskButton(projects, taskIndex, projectIndex)];
 
-        projTask.textContent = tasks[i].getTaskName();
-        checkTask(projTask, tasks, i);
+        projTask.textContent = tasks[taskIndex].getTaskName();
+        checkTask(projTask, tasks, taskIndex);
 
-        taskListItem.classList.add('to-do-task', 'fl-r');
+        taskListItem.classList.add('to-do-task', 'fl-r', checkPriority(tasks, taskIndex, borderType));
 
         projTaskContainer.appendChild(projTask);
         appendChildren(btnContainer, buttons);
@@ -175,10 +182,10 @@ function checkTask(projTask, tasks, index) {
         projTask.style.textDecoration = 'none';
 }
 
-function checkPriority(projects, index, type) {
-    console.log(type);
+function checkPriority(form, index, type) {
+    console.log(form[index].getPriority());
     try {
-        switch (projects[index].getPriority()) {
+        switch (form[index].getPriority()) {
             case 'low':
                 return type === 'border' ? 'low-priority-border' : 'low-priority';
             case 'medium':
@@ -188,7 +195,7 @@ function checkPriority(projects, index, type) {
         }
         throw 'Priority error';
     } catch(err) {
-        alert(err.concat('. Please contact developer about this.'));
+        alert(`${err}. Please contact developer about this.`);
     }
 }
 

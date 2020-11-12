@@ -1,4 +1,4 @@
-import { addProjectForm, addTaskForm, renameTaskForm, removeProjectForm, removeTaskForm } from './forms.js';
+import { addProjectForm, addTaskForm, checkTaskForm, editTaskForm, removeProjectForm, removeTaskForm } from './forms.js';
 import { addCloseButton } from './buttons.js';
 
 // refactor code to lower repetition
@@ -45,12 +45,26 @@ export function addTaskModal(project) {
     document.getElementById('root').appendChild(modal);
 }
 
-export function renameModal(projects, taskIndex, projIndex) {
+export function editModal(projects, taskIndex, projIndex) {
     if (document.getElementsByClassName('bg-modal').length > 0)
         return;
     let modal = document.createElement('div');
     let modalContent = createNewModalContent();
-    let formContainer = renameTaskForm(projects, taskIndex, projIndex);
+    let formContainer = editTaskForm(projects, taskIndex, projIndex);
+
+    modal.classList.add('bg-modal');
+    modalContent.appendChild(formContainer);
+    modal.appendChild(modalContent);
+
+    document.getElementById('root').appendChild(modal);
+}
+
+export function checkTaskModal(projects, taskIndex, projIndex) {
+    if (document.getElementsByClassName('bg-modal').length > 0)
+        return;
+    let modal = document.createElement('div');
+    let modalContent = createNewModalContent();
+    let formContainer = checkTaskForm(projects, taskIndex, projIndex);
 
     modal.classList.add('bg-modal');
     modalContent.appendChild(formContainer);

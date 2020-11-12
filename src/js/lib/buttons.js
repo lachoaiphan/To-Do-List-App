@@ -1,5 +1,5 @@
-import { addProject, addTaskToList, removeProject, removeTask, renameTask, markCheckTask } from './elements.js';
-import { addTaskModal, renameModal, removeModal, removeProjectModal, removeTaskModal } from './modals.js';
+import { addProject, addTaskToList, removeProject, removeTask, editTask, markCheckTask } from './elements.js';
+import { addTaskModal, checkTaskModal, editModal, removeModal, removeProjectModal, removeTaskModal } from './modals.js';
 
 export function addProjectButton() {
     let addProjectBtn = document.createElement('button');
@@ -75,19 +75,19 @@ export function addCloseButton() {
 }
 
 export function addRenameButton(projects, taskIndex, projIndex) {
-    let renameBtn = document.createElement('button');
+    let renameBtn = document.createElement('i');
 
     renameBtn.classList.add('icon-pencil');
     renameBtn.addEventListener('click', (e) => {
         if (e.target)
-            renameModal(projects, taskIndex, projIndex);
+            editModal(projects, taskIndex, projIndex);
     })
 
     return renameBtn;
 }
 
 export function checkButton(tasks, index) {
-    let checkBtn = document.createElement('button');
+    let checkBtn = document.createElement('i');
 
     checkBtn.classList.add('icon-ok');
 
@@ -99,7 +99,7 @@ export function checkButton(tasks, index) {
     return checkBtn;
 }
 
-export function renameTaskButton(projects, taskIndex, projIndex) {
+export function editTaskButton(projects, taskIndex, projIndex) {
     let addTaskBtn = document.createElement('button');
 
     addTaskBtn.textContent = 'ADD TASK';
@@ -110,14 +110,14 @@ export function renameTaskButton(projects, taskIndex, projIndex) {
 
     addTaskBtn.addEventListener('click', (e) => {
         if (e.target)
-            renameTask(projects, taskIndex, projIndex);
+            editTask(projects, taskIndex, projIndex);
     });
 
     return addTaskBtn;
 }
 
 export function addTaskModalButton(project) {
-    let addTaskBtn = document.createElement('button');
+    let addTaskBtn = document.createElement('i');
 
     addTaskBtn.classList.add('icon-plus');
 
@@ -129,10 +129,23 @@ export function addTaskModalButton(project) {
     return addTaskBtn;
 }
 
-export function removeTaskButton(projects, taskIndex, projIndex) {
-    let removeTaskBtn = document.createElement('button');
+export function checkTaskButton(project, taskIndex, projIndex) {
+    let addTaskBtn = document.createElement('i');
 
-    removeTaskBtn.classList.add('.icon-trash-empty');
+    addTaskBtn.classList.add('demo-icon', 'icon-clipboard');
+
+    addTaskBtn.addEventListener('click', (e) => {
+        if (e.target) 
+            checkTaskModal(project, taskIndex, projIndex);
+    }, false);
+
+    return addTaskBtn;
+}
+
+export function removeTaskButton(projects, taskIndex, projIndex) {
+    let removeTaskBtn = document.createElement('i');
+
+    removeTaskBtn.classList.add('icon-trash-empty');
 
     removeTaskBtn.addEventListener('click', (e) => {
         if (e.target)
@@ -142,7 +155,7 @@ export function removeTaskButton(projects, taskIndex, projIndex) {
 }
 
 export function removeProjectButton(index) {
-    let removeProjectBtn = document.createElement('button');
+    let removeProjectBtn = document.createElement('i');
 
     removeProjectBtn.classList.add('icon-trash-empty');
 

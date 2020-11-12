@@ -1,9 +1,9 @@
 import { appendChildren, capitalizeString } from './helper.js';
-import { addProjectButton, addTaskButton, verifyDeleteProjectButton, verifyDeleteTaskButton, renameTaskButton } from './buttons.js';
+import { addProjectButton, addTaskButton, verifyDeleteProjectButton, verifyDeleteTaskButton, editTaskButton } from './buttons.js';
 
 export function addProjectForm() {
     let formContainer = document.createElement('div');
-    let projectHeader = document.createElement('h1');
+    let projectTitle = document.createElement('h1');
     let projectForm = document.createElement('form');
     let priorityForm = addPriorityForm();
     let addProjectBtn = addProjectButton();
@@ -12,7 +12,7 @@ export function addProjectForm() {
         {name: 'desc', class: 'add-input', required: true, type: 'text', placeholder: 'Enter Description:'},
         {name: 'date', class: 'add-input', required: true, type: 'date', placeholder: 'Enter Due Date:'}
     ]
-    projectHeader.textContent = 'Enter Project Name!';
+    projectTitle.textContent = 'Enter Project Name!';
     projectForm.setAttribute('id', 'project-form');
     for (let i = 0; i < projectAttrs.length; i++) {
         let projectField = document.createElement('input');
@@ -22,13 +22,11 @@ export function addProjectForm() {
         projectField.required = projectAttrs[i].required;
         projectField.setAttribute('type', projectAttrs[i].type);
         projectHeader.textContent = projectAttrs[i].placeholder;
-        //projectField.setAttribute('placeholder', projectAttrs[i].placeholder);
         appendChildren(projectForm, [projectHeader, projectField]);
-        //projectForm.appendChild(projectField);
     }
 
     appendChildren(projectForm, [priorityForm, addProjectBtn]);
-    appendChildren(formContainer, [projectHeader, projectForm]);
+    appendChildren(formContainer, [projectTitle, projectForm]);
     
     return formContainer;
 }
@@ -38,50 +36,77 @@ export function addTaskForm(project) {
     let taskHeader = document.createElement('h1');
     let taskForm = document.createElement('form');
     let addTaskBtn = addTaskButton(project);
+    let priorityForm = addPriorityForm();
     const taskAttrs = [
-        {name: 'taskName', class: 'add-input', required: true, type: 'text', placeholder: 'Enter task'},
+        {name: 'taskName', class: 'add-input', required: true, type: 'text', placeholder: 'Enter Task:'},
+        {name: 'date', class: 'add-input', required: true, type: 'date', placeholder: 'Enter Due Date:'}
     ];
     taskHeader.textContent = 'Enter Task Name!';
     taskForm.setAttribute('id', 'task-form');
     for (let i = 0; i < taskAttrs.length; i++) {
         let taskField = document.createElement('input');
+        let taskHeader = document.createElement('h3');
         taskField.setAttribute('name', taskAttrs[i].name);
         taskField.setAttribute('class', taskAttrs[i].class);
         taskField.required = taskAttrs[i].required;
         taskField.setAttribute('type', taskAttrs[i].type);
         taskField.setAttribute('placeholder', taskAttrs[i].placeholder);
-        taskForm.appendChild(taskField);
+        taskHeader.textContent = taskAttrs[i].placeholder;
+        appendChildren(taskForm, [taskHeader, taskField]);
     }
 
-    taskForm.appendChild(addTaskBtn);
+    appendChildren(taskForm, [priorityForm, addTaskBtn]);
     appendChildren(formContainer, [taskHeader, taskForm]);
     
     return formContainer;
 }
 
-export function renameTaskForm(projects, taskIndex, projIndex) {
+export function editTaskForm(projects, taskIndex, projIndex) {
     let formContainer = document.createElement('div');
     let taskHeader = document.createElement('h1');
     let taskForm = document.createElement('form');
-    let addTaskBtn = renameTaskButton(projects, taskIndex, projIndex);
+    let addTaskBtn = editTaskButton(projects, taskIndex, projIndex);
+    let priorityForm = addPriorityForm();
     const taskAttrs = [
-        {name: 'taskName', class: 'add-input', required: true, type: 'text', placeholder: 'Enter task'},
+        {name: 'taskName', class: 'add-input', required: true, type: 'text', placeholder: 'Rename Task:'},
+        {name: 'date', class: 'add-input', required: true, type: 'date', placeholder: 'Reset Due Date:'}
     ];
     taskHeader.textContent = 'Enter Task Name!';
     taskForm.setAttribute('id', 'task-form');
     for (let i = 0; i < taskAttrs.length; i++) {
         let taskField = document.createElement('input');
+        let editTaskHeader = document.createElement('h3');
         taskField.setAttribute('name', taskAttrs[i].name);
         taskField.setAttribute('class', taskAttrs[i].class);
         taskField.required = taskAttrs[i].required;
         taskField.setAttribute('type', taskAttrs[i].type);
-        taskField.setAttribute('placeholder', taskAttrs[i].placeholder);
-        taskForm.appendChild(taskField);
+        editTaskHeader.textContent = taskAttrs[i].placeholder;
+        appendChildren(taskForm, [editTaskHeader, taskField]);
     }
 
-    taskForm.appendChild(addTaskBtn);
+    appendChildren(taskForm, [priorityForm, addTaskBtn]);
     appendChildren(formContainer, [taskHeader, taskForm]);
     
+    return formContainer;
+}
+
+// new feature
+export function checkTaskForm(projects, taskIndex, projIndex) {
+    let formContainer = document.createElement('div');
+    let taskHeader = document.createElement('h1');
+    let currentTask = projects[projIndex].getTasks()[taskIndex]
+    const taskAttrs = [
+        {desc: `Task Name: ${currentTask.getTaskName()}`},
+        {desc: `Due Date: ${currentTask.getDate()}`},
+        {desc: `Priority: ${capitalizeString(currentTask.getPriority())}`}
+    ];
+    taskHeader.textContent = `Your Task for ${projects[projIndex].getName()}`;
+    formContainer.appendChild(taskHeader);
+    for (let i = 0; i < taskAttrs.length; i++) {
+        let taskField = document.createElement('h3');
+        taskField.textContent = taskAttrs[i].desc;
+        formContainer.appendChild(taskField);
+    }
     return formContainer;
 }
 
